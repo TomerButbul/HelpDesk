@@ -139,6 +139,10 @@
     </footer>
     <!-- Add canvas for gradient border -->
     <canvas id="myCanvas" style="display: none;"></canvas>
+    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"></script>
+<script>
+  const socket = io('https://livechattomer.onrender.com'); // Replace with your server URL
+</script>
     <script>
         const c = document.getElementById("myCanvas");
         const ctx = c.getContext("2d");
