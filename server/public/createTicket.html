@@ -179,7 +179,13 @@
             window.location.href = `frontpage.html?user_id=${user_id}&role=${role}`;
     });
     document.body.appendChild(viewTicketsButton);
-
+    const liveChatButton = document.createElement('button');
+    liveChatButton.textContent = 'Live Chat';
+    liveChatButton.addEventListener('click', function() {
+        
+        window.location.href = `https://livechattomer.onrender.com/`;
+    });
+    document.body.appendChild(liveChatButton);
 }
 </script>
 
