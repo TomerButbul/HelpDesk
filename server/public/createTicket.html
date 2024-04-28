@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Ticket</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"> <!-- Replace "styles.css" with the path to your CSS file -->
+</head>
+<body>
+
+<h1>Create Ticket</h1>
+
+<form id="ticketForm" action="#" method="post">
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const user_id = urlParams.get('user_id');
+        const role = urlParams.get('role');
+    </script>
+    <div>
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="Software">Software</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Order">Order</option>
+            <option value="Refund">Refund</option>
+            <option value="Ticket">Ticket</option>
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+
+    <div>
+        <label for="subcategory">Subcategory:</label>
+        <select id="subcategory" name="subcategory">
+            <!-- Subcategory options will be dynamically populated based on the selected category -->
+        </select>
+    </div>
+
+    <div>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50"></textarea>
+    </div>
+
+    <div id="ticketIdField" style="display: none;">
+        <label for="ticketId">Ticket ID:</label><br>
+        <input type="text" id="ticketId" name="ticketId">
+    </div>
+    <div id="orderIdField" style="display: none;">
+        <label for="orderId">Order ID:</label><br>
+        <input type="text" id="orderId" name="orderId">
+    </div>
+    <div id="emailField" style="display: none;">
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email">
+    </div>
+    <button type="button" onclick="sendInfoTOCreate()">Submit</button> <!-- Changed type to "button" -->
+</form>
+
+<script>
+    if(user_id === null){
+        document.getElementById('emailField').style.display = 'block';
+    }else{
+        document.getElementById('emailField').style.display = 'none';
+    }
+    // Define subcategories for each category
+    const subcategories = {
+        Software: ['Bug', 'Feature Request', 'Installation Issue'],
+        Hardware: ['Printer', 'Computer', 'Network'],
+        Order: ['Connectivity Issue', 'Slow Internet', 'Router Configuration'],
+        Refund: ['Login Issue', 'Password Reset', 'Account Deactivation'],
+        Ticket: ['Payment Issue', 'Invoice Inquiry', 'Subscription Renewal'],
+        // Add more subcategories as needed
+    };
+
+    // Categories that require a ticket ID
+    const categoriesWithTicketID = ['Ticket'];
+    const categoriesWithOrderID = ['Order','Refund'];
+
+    // Function to update subcategory dropdown based on selected category
+    function updateSubcategories() {
+        const category = document.getElementById('category').value;
+        const subcategoryDropdown = document.getElementById('subcategory');
+        subcategoryDropdown.innerHTML = ''; // Clear previous options
+
+        subcategories[category].forEach(subcategory => {
+            const option = document.createElement('option');
+            option.text = subcategory;
+            option.value = subcategory;
+            subcategoryDropdown.add(option);
+        });
+
+        // Check if the selected category requires a ticket ID
+        if (categoriesWithTicketID.includes(category)) {
+            document.getElementById('ticketIdField').style.display = 'block';
+            document.getElementById('orderIdField').style.display = 'none';
+        } else if(categoriesWithOrderID.includes(category)){
+            document.getElementById('orderIdField').style.display = 'block';
+            document.getElementById('ticketIdField').style.display = 'none';
+        }else{
+            document.getElementById('orderIdField').style.display = 'none';
+            document.getElementById('ticketIdField').style.display = 'none';
+        }
+    }
+
+    // Update subcategory dropdown when category selection changes
+    document.getElementById('category').addEventListener('change', updateSubcategories);
+
+    // Initially populate subcategory dropdown based on the default category
+    updateSubcategories();
+
+    function sendInfoTOCreate() {
+        const subcategory = document.getElementById('subcategory').value;
+        const description = document.getElementById('description').value;
+        const category = document.getElementById('category').value;
+        const ticketId = document.getElementById('ticketId').value;
+        const orderId = document.getElementById('orderId').value;
+        const email = document.getElementById('email').value;
+
+        
+
+        if (!description || (!email && document.getElementById('emailField').style.display === 'block')) {
+        alert('Please fill out all required fields.');
+        return; 
+    }
+        
+        clearPageAndDisplaySuccess();
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://3.94.158.251/helpdesk/create', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+
+        let data = {
+            user_id,
+			role,
+            email: email,
+			ticket_category: category,
+            ticket_Subcategory: subcategory,
+			description: description,
+            Order_id: orderId,
+			TicketProblem_id: ticketId, 
+          };
+
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                clearPageAndDisplaySuccess();
+            } else {
+                console.error('Error creating ticket:', xhr.responseText);
+            }
+        };
+        xhr.send(JSON.stringify(data));
+        
+    }
+    function clearPageAndDisplaySuccess(ticketData) {
+    const subcategory = document.getElementById('subcategory').value;
+    const description = document.getElementById('description').value;
+    const category = document.getElementById('category').value;
+    
+    document.body.innerHTML = '';
+
+    const ticketInfo = document.createElement('h1');
+    
+    ticketInfo.innerHTML = `
+        <h2>Successful Ticket Submission</h2>
+        <p><strong>Category:</strong> ${category}</p>
+        <p><strong>Subcategory:</strong> ${subcategory}</p>
+        <p><strong>Description:</strong> ${description}</p>
+        
+    `;
+    document.body.appendChild(ticketInfo);
+
+    const viewTicketsButton = document.createElement('button');
+    viewTicketsButton.textContent = 'Live Chat/View All Tickets';
+    viewTicketsButton.addEventListener('click', function() {
+        const user_id = 'your_user_id'; // Replace with actual user_id
+            const role = 'your_role'; // Replace with actual role
+
+            // Redirect to CreateTicket.html with user_id and role as URL parameters
+            window.location.href = `frontpage.html?user_id=${user_id}&role=${role}`;
+    });
+    document.body.appendChild(viewTicketsButton);
+
+}
+</script>
+
+</body>
+</html>
