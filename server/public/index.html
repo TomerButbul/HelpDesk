@@ -65,10 +65,26 @@
         
          });
         // Function to leave the chat room
-        document.getElementById('leave').addEventListener('click', function () {
-            socket.emit('leaveRoom'); // Emit 'leaveRoom' event to the server
-            window.location.href = `frontpage.html?user_id=${user_id}&role=${role}`; // replace with the actual path to your frontpage
-        });
+       // Event listener for the "Leave" button
+document.getElementById('leave').addEventListener('click', leaveChatRoom);
+
+// Function to leave the chat room
+function leaveChatRoom() {
+    // Emit 'leaveRoom' event to the server
+    socket.emit('leaveRoom');
+}
+
+// Handle 'leaveRoom' event on the server-side
+socket.on('leaveRoom', (socketId) => {
+    // Call the function to leave the room
+    leaveChatRoom(socketId);
+});
+
+// Function to handle leaving the chat room
+function leaveChatRoom(socketId) {
+    // Emit 'leaveRoom' event to the server
+    socket.emit('leaveRoom', socketId);
+}
         // Function to send a message
         document.getElementById('messageForm').addEventListener('submit', function (e) {
             e.preventDefault();
