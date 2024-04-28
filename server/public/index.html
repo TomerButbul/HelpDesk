@@ -35,21 +35,23 @@
         const socket = io('https://livechattomer.onrender.com'); // Replace with your server URL
         // Function to join the chat room
         document.getElementById('joinForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const room = document.getElementById('room').value;
-            socket.emit('enterRoom', { name, room });
-            // Hide the join button and show the leave button
-            document.getElementById('join').style.display = 'none';
-            // Hide the ticket ID box
-            document.getElementById('room').style.display = 'none';
-            // Show the message input field and send button
-            document.getElementById('messageForm').style.display = 'block';
-            document.querySelector('.chat-display').style.display = 'block';
-            document.querySelector('.user-list').style.display = 'block';
-            document.querySelector('.room-list').style.display = 'block';
-            document.querySelector('.activity').style.display = 'block';
-        });
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const room = document.getElementById('room').value;
+    socket.emit('enterRoom', { name, room });
+    // Hide the join button
+    document.getElementById('join').style.display = 'none';
+    // Hide the ticket ID box
+    document.getElementById('room').style.display = 'none';
+    // Hide the name input field
+    document.getElementById('name').style.display = 'none';
+    // Show the message input field and send button
+    document.getElementById('messageForm').style.display = 'block';
+    document.querySelector('.chat-display').style.display = 'block';
+    document.querySelector('.user-list').style.display = 'block';
+    document.querySelector('.room-list').style.display = 'block';
+    document.querySelector('.activity').style.display = 'block';
+});
 
          // Event listener to handle room full event
          socket.on('roomFull', function () {
