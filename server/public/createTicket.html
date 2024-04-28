@@ -208,15 +208,14 @@ button:hover {
         return; 
     }
         
-        clearPageAndDisplaySuccess();
         const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://3.94.158.251/helpdesk/create', true);
+        xhr.open('POST', 'http://localhost:3000/ticket/create', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
 
 
         let data = {
-            user_id,
-			role,
+            user_id:user_id,
+			role:role,
             email: email,
 			ticket_category: category,
             ticket_Subcategory: subcategory,
@@ -228,7 +227,8 @@ button:hover {
 
         xhr.onload = function() {
             if (xhr.status === 200) {
-                clearPageAndDisplaySuccess();
+                data = xhr.responseText;
+                clearPageAndDisplaySuccess(data);
             } else {
                 console.error('Error creating ticket:', xhr.responseText);
             }
@@ -240,32 +240,51 @@ button:hover {
     const subcategory = document.getElementById('subcategory').value;
     const description = document.getElementById('description').value;
     const category = document.getElementById('category').value;
-    
+
     document.body.innerHTML = '';
 
-    const ticketInfo = document.createElement('h1');
-    
-    ticketInfo.innerHTML = `
-        <h2>Successful Ticket Submission</h2>
-        <p><strong>Category:</strong> ${category}</p>
-        <p><strong>Subcategory:</strong> ${subcategory}</p>
-        <p><strong>Description:</strong> ${description}</p>
-        
-    `;
+    const ticketInfo = document.createElement('div');
+
+    const successMessage = document.createElement('h2');
+    successMessage.textContent = 'Successful Ticket Submission';
+    ticketInfo.appendChild(successMessage);
+
+    const categoryInfo = document.createElement('p');
+    categoryInfo.innerHTML = `<strong>Category:</strong> ${category}`;
+    ticketInfo.appendChild(categoryInfo);
+
+    const subcategoryInfo = document.createElement('p');
+    subcategoryInfo.innerHTML = `<strong>Subcategory:</strong> ${subcategory}`;
+    ticketInfo.appendChild(subcategoryInfo);
+
+    const descriptionInfo = document.createElement('p');
+    descriptionInfo.innerHTML = `<strong>Description:</strong> ${description}`;
+    ticketInfo.appendChild(descriptionInfo);
+
+    const responseText = document.createElement('p');
+    responseText.innerHTML = `<strong>Response:</strong> ${ticketData}`;
+    ticketInfo.appendChild(responseText);
+
     document.body.appendChild(ticketInfo);
 
     const viewTicketsButton = document.createElement('button');
     viewTicketsButton.textContent = 'Live Chat/View All Tickets';
     viewTicketsButton.addEventListener('click', function() {
-        const user_id = 'your_user_id'; // Replace with actual user_id
+        history.back();
+    });
+    document.body.appendChild(viewTicketsButton);
+    const viewThisTicketButton = document.createElement('button');
+    viewThisTicketButton.textContent = 'Live Chat/View All Tickets';
+    viewThisTicketButton.addEventListener('click', function() {
+            const user_id = 'your_user_id'; // Replace with actual user_id
             const role = 'your_role'; // Replace with actual role
 
             // Redirect to CreateTicket.html with user_id and role as URL parameters
-            window.location.href = `frontpage.html?user_id=${user_id}&role=${role}`;
+            window.location.href = `viewTicket.html?user_id=${user_id}&role=${role}`;
     });
-    document.body.appendChild(viewTicketsButton);
-    
+    document.body.appendChild(viewThisTicketButton);
 }
+
 </script>
 
 </body>

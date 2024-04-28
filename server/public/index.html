@@ -13,15 +13,15 @@
     
 </head>
 <body>
-    <main>
+    <main class="post--right">
         <!-- Add id to the form for joining the chat room -->
-        <form id="joinForm" class="form-join">
-            <input type="text" id="name" maxlength="16" placeholder="Your name" size="5" required>
-            <input type="text" id="room" maxlength="16" placeholder="Ticket ID" size="5" required>
-            <button id="join" type="submit">Join</button>
+        <form id="joinForm" class="form-join post__header">
+            <input type="text" id="name" maxlength="16" placeholder="Your name" size="5" required class="post__header--user">
+            <input type="text" id="room" maxlength="16" placeholder="Ticket ID" size="5" required class="post__header--reply">
+            <button id="join" type="submit" class="post__header--name">Join</button>
         </form>
-        <ul class="chat-display" style="display: none;"></ul>
-        <p class="user-list" style="display: none;"></p>
+        <ul class="chat-display post__header--time" style="display: none;"></ul>
+        <p class="user-list post__text" style="display: none;"></p>
         <p class="room-list" style="display: none;"></p>
         <p class="activity" style="display: none;"></p>
         <!-- Add id to the form for sending messages -->

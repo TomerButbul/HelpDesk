@@ -13,7 +13,6 @@
             padding: 0;
             background-image: url("https://media.istockphoto.com/id/1409540606/vector/vector-contact-us-pattern-contact-us-seamless-background.jpg?s=612x612&w=0&k=20&c=3djpAIuo9fE9Mr4T7bLIUpEjqU7XaZk4wWt7aMUgU1o=");
         }
-
         header {
             background-color : #000000;
     color: #fff;
@@ -24,7 +23,7 @@
         }
 
         nav {
-            background-color: #d3d3d3; /* Black background color */
+            background-color: #D3D3D3; /* Black background color */
             padding: 10px; /* Add padding */
             text-align: center;
 	margin: 10px;
@@ -123,15 +122,13 @@
     <section>
        
       
-        </div>
-        <div class="box">
+        <div id="ticket-box" class="box">
             <h3>Showing Tickets</h3>
-            <p>
-            </p>
+            <ul id="ticket-list"></ul>
         </div>
-        <div class="box">
+        <div id="question-box" class="box">
             <h3>FAQs</h3>
-            <p>Options for Box 2</p>
+            <ul id="question-list"></ul>
         </div>
     </section>
     <footer>
@@ -139,10 +136,6 @@
     </footer>
     <!-- Add canvas for gradient border -->
     <canvas id="myCanvas" style="display: none;"></canvas>
-    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"></script>
-<script>
-  const socket = io('https://livechattomer.onrender.com'); // Replace with your server URL
-</script>
     <script>
         const c = document.getElementById("myCanvas");
         const ctx = c.getContext("2d");
@@ -160,16 +153,76 @@
         ctx.lineWidth = 10; // Set border width
         ctx.strokeStyle = grad; // Set border color to gradient
         ctx.strokeRect(0, 0, c.width, c.height); // Draw gradient border
+       
+        async function fetchData() {
+            try {
+                // Fetch questions and tickets data
+                const dataElement = document.getElementById('server-data');
+                const dataString = dataElement.textContent;
+                const data = JSON.parse(dataString);
+
+              // Update ticket list
+             // Update ticket list if it exists
+        if (data.Tickets) {
+            const ticketList = document.getElementById('ticket-list');
+            ticketList.innerHTML = '';
+            data.Tickets.forEach(ticket => {
+                const listItem = document.createElement('li');
+                const ticketButton = document.createElement('button');
+                ticketButton.textContent = `${ticket.ticket_id}: ${ticket.description}`;
+                ticketButton.addEventListener('click', () => {
+                    // Handle button click event here (e.g., show ticket details)
+                });
+                listItem.appendChild(ticketButton);
+                ticketList.appendChild(listItem);
+            });
+            const ticketBox = document.getElementById('ticket-box');
+            ticketBox.innerHTML = '';
+            ticketBox.appendChild(ticketList);
+        }
+
+        // Update question list if it exists
+        const questionList = document.getElementById('question-list');
+        questionList.innerHTML = ''; // Clear existing list
+        if (data.Questions) {
+            data.Questions.forEach(question => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${question.question_id}: ${question.question}`;
+                questionList.appendChild(listItem);
+            });
+        } else {
+            // Display header for questions if there are no questions
+            const listItem = document.createElement('li');
+            listItem.textContent = "No questions available";
+            questionList.appendChild(listItem);
+        }
+        const questionBox = document.getElementById('question-box');
+        questionBox.appendChild(questionList);
+        
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Call fetchData function when the page loads
+        window.onload = fetchData;
 
         // Add event listener to the "Create Ticket" button
-        document.querySelector('button[name="create-ticket-button"]').addEventListener('click', function () {
-            // Get user_id and role (assuming they are stored somewhere)
-            const user_id = 'your_user_id'; // Replace with actual user_id
-            const role = 'your_role'; // Replace with actual role
+        document.getElementById('create-ticket-button').addEventListener('click', function () {
+    const dataElement = document.getElementById('server-data');
+    const dataString = dataElement.textContent;
+    const data = JSON.parse(dataString);
 
-            // Redirect to CreateTicket.html with user_id and role as URL parameters
-            window.location.href = `createTicket.html?user_id=${user_id}&role=${role}`;
-        });
+    // Get user_id and role (assuming they are stored somewhere)
+    const user_id = data.user_id; // Replace with actual user_id
+    const role = data.role; // Replace with actual role
+
+    // Construct the redirect URL
+    const redirectUrl = `/ticket/createinfo?user_id=${user_id}&role=${role}`;
+
+    // Redirect to the new URL
+    window.location.href = redirectUrl;
+});
 
 
 </script>
