@@ -13,20 +13,20 @@
     
 </head>
 <body>
-    <main class="post--right">
+    <main>
         <!-- Add id to the form for joining the chat room -->
-        <form id="joinForm" class="form-join post__header">
-            <input type="text" id="name" maxlength="16" placeholder="Your name" size="5" required class="post__header--user">
-            <input type="text" id="room" maxlength="16" placeholder="Ticket ID" size="5" required class="post__header--reply">
-            <button id="join" type="submit" class="post__header--name">Join</button>
+        <form id="joinForm" class="form-join">
+            <input type="text" id="name" maxlength="16" placeholder="Your name" size="5" required>
+            <input type="text" id="room" maxlength="16" placeholder="Ticket ID" size="5" required>
+            <button id="join" type="submit">Join</button>
         </form>
-        <ul class="chat-display post__header--time" style="display: none;"></ul>
-        <p class="user-list post__text" style="display: none;"></p>
+        <ul class="chat-display" style="display: none;"></ul>
+        <p class="user-list" style="display: none;"></p>
         <p class="room-list" style="display: none;"></p>
         <p class="activity" style="display: none;"></p>
         <!-- Add id to the form for sending messages -->
-        <form id="messageForm" class="form-msg" required class="post__header--user">
-            <input type="text" id="message" placeholder="Your message" required required class="post__header--reply>
+        <form id="messageForm" class="form-msg" style="display: none;">
+            <input type="text" id="message" placeholder="Your message" required>
             <button type="submit">Send</button>
         </form>
     </main>
@@ -35,23 +35,21 @@
         const socket = io('https://livechattomer.onrender.com'); // Replace with your server URL
         // Function to join the chat room
         document.getElementById('joinForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    const room = document.getElementById('room').value;
-    socket.emit('enterRoom', { name, room });
-    // Hide the join button and show the leave button
-    document.getElementById('join').style.display = 'none';
-    // Hide the ticket ID box
-    document.getElementById('room').style.display = 'none';
-    // Hide the username box
-    document.getElementById('name').style.display = 'none';
-    // Show the message input field and send button
-    document.getElementById('messageForm').style.display = 'block';
-    document.querySelector('.chat-display').style.display = 'block';
-    document.querySelector('.user-list').style.display = 'block';
-    document.querySelector('.room-list').style.display = 'block';
-    document.querySelector('.activity').style.display = 'block';
-});
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const room = document.getElementById('room').value;
+            socket.emit('enterRoom', { name, room });
+            // Hide the join button and show the leave button
+            document.getElementById('join').style.display = 'none';
+            // Hide the ticket ID box
+            document.getElementById('room').style.display = 'none';
+            // Show the message input field and send button
+            document.getElementById('messageForm').style.display = 'block';
+            document.querySelector('.chat-display').style.display = 'block';
+            document.querySelector('.user-list').style.display = 'block';
+            document.querySelector('.room-list').style.display = 'block';
+            document.querySelector('.activity').style.display = 'block';
+        });
 
          // Event listener to handle room full event
          socket.on('roomFull', function () {
