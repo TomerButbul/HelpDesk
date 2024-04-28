@@ -16,7 +16,6 @@ app.use(express.static(path.join(__dirname, "public")))
 const expressServer = app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
 })
-<link href="style.css" rel="stylesheet">
 // state 
 const UsersState = {
     users: [],
