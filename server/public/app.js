@@ -8,7 +8,6 @@ const activity = document.querySelector('.activity')
 const usersList = document.querySelector('.user-list')
 const roomList = document.querySelector('.room-list')
 const chatDisplay = document.querySelector('.chat-display')
-const leaveButton = document.createElement('button');
 
 function sendMessage(e) {
     e.preventDefault()
@@ -41,30 +40,6 @@ document.querySelector('.form-join')
 msgInput.addEventListener('keypress', () => {
     socket.emit('activity', nameInput.value)
 })
-//leave room
-function leaveChatRoom(socketId) {
-    const user = getUser(socketId);
-    if (user) {
-        const room = user.room;
-        if (room) {
-            // Broadcast to the room that the user has left
-            io.to(room).emit('message', buildMsg(ADMIN, `${user.name} has left the room`));
-            
-            // Update user list for the room
-            io.to(room).emit('userList', {
-                users: getUsersInRoom(room)
-            });
-            
-            // Update rooms list for everyone
-            io.emit('roomList', {
-                rooms: getAllActiveRooms()
-            });
-            
-            // Remove the user from the state
-            userLeavesApp(socketId);
-        }
-    }
-}
 
 // Listen for messages 
 socket.on("message", (data) => {
