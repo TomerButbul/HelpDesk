@@ -4,7 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Ticket</title>
-    <link rel="stylesheet" type="text/css" href="styles.css"> <!-- Replace "styles.css" with the path to your CSS file -->
+    <style>
+        body {
+    font-family: calibri, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("https://media.istockphoto.com/id/1409540606/vector/vector-contact-us-pattern-contact-us-seamless-background.jpg?s=612x612&w=0&k=20&c=3djpAIuo9fE9Mr4T7bLIUpEjqU7XaZk4wWt7aMUgU1o=");
+}
+
+h1 {
+    header {
+        background-color: #000000; /* Black background color */
+        color: #fff; /* White text color */
+        padding: 5px 5px; /* Padding of 5px on all sides */
+        text-align: center; /* Center-align text */
+        font-size: 20px; /* Font size of 20px */
+        margin: 10px; /* Add margin to create space around the header */
+    }    
+}
+h3 {
+    header {
+        background-color: #000000; /* Black background color */
+        color: #fff; /* White text color */
+        padding: 5px 5px; /* Padding of 5px on all sides */
+        text-align: center; /* Center-align text */
+        font-size: 20px; /* Font size of 20px */
+        margin: 10px; /* Add margin to create space around the header */
+    }    
+}
+form {
+    width: 50%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+div {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #d21404;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #d21404;
+}
+
+@media screen and (max-width: 768px) {
+    form {
+        width: 80%;
+    }
+}
+#subcategory,
+#description,
+#ticketId,
+#orderId,
+#email {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+</style>
 </head>
 <body>
 
@@ -20,8 +104,8 @@
     <div>
         <label for="category">Category:</label>
         <select id="category" name="category">
-            <option value="Software">Software</option>
-            <option value="Hardware">Hardware</option>
+            <option value="Sign_Up">Sign Up</option>
+            <option value="Log_in">Log in</option>
             <option value="Order">Order</option>
             <option value="Refund">Refund</option>
             <option value="Ticket">Ticket</option>
@@ -65,11 +149,11 @@
     }
     // Define subcategories for each category
     const subcategories = {
-        Software: ['Bug', 'Feature Request', 'Installation Issue'],
-        Hardware: ['Printer', 'Computer', 'Network'],
-        Order: ['Connectivity Issue', 'Slow Internet', 'Router Configuration'],
-        Refund: ['Login Issue', 'Password Reset', 'Account Deactivation'],
-        Ticket: ['Payment Issue', 'Invoice Inquiry', 'Subscription Renewal'],
+        Sign_Up: ['How to sign up as User', 'How to sign up as Restaurant'],
+        Log_in: ['Forgot Password', 'Forgot Username', 'Unable to log in','Account Deactivation','Account Hacked','Account Suspended','Account Locked','Account Banned'],
+        Order: ['Order Not received', 'Missing item', 'Wrong Item', 'Order Cancellation', 'Order Modification', 'Order Tracking', 'Order Delayed', 'Order Payment Issue'],
+        Refund: ['How to receive a refund', 'Refund not received', 'Refund Payment Issue', 'Refund Processing Time', 'Refund Policy', 'Refund Request', 'Refund Status','Refund Dispute'],
+        Ticket: ['Ticket Status', 'Ticket still unresolved', 'Ticket response time'],
         // Add more subcategories as needed
     };
 
@@ -180,13 +264,7 @@
             window.location.href = `frontpage.html?user_id=${user_id}&role=${role}`;
     });
     document.body.appendChild(viewTicketsButton);
-    const liveChatButton = document.createElement('button');
-    liveChatButton.textContent = 'Live Chat';
-    liveChatButton.addEventListener('click', function() {
-        
-        window.open(`https://livechattomer.onrender.com/`);
-    });
-    document.body.appendChild(liveChatButton);
+    
 }
 </script>
 

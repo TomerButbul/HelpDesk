@@ -19,8 +19,6 @@
             <input type="text" id="name" maxlength="16" placeholder="Your name" size="5" required>
             <input type="text" id="room" maxlength="16" placeholder="Ticket ID" size="5" required>
             <button id="join" type="submit">Join</button>
-            <!-- Add a button for leaving the chat room -->
-            <button id="leave" type="button" style="display: none;">Leave</button>
         </form>
         <ul class="chat-display" style="display: none;"></ul>
         <p class="user-list" style="display: none;"></p>
@@ -43,7 +41,6 @@
             socket.emit('enterRoom', { name, room });
             // Hide the join button and show the leave button
             document.getElementById('join').style.display = 'none';
-            document.getElementById('leave').style.display = 'inline-block';
             // Hide the ticket ID box
             document.getElementById('room').style.display = 'none';
             // Show the message input field and send button
@@ -64,21 +61,6 @@
         });
         
          });
-        // Function to leave the chat room
-       // Event listener for the "Leave" button
-document.getElementById('leave').addEventListener('click', leaveChatRoom);
-
-// Function to leave the chat room
-function leaveChatRoom() {
-    // Emit 'leaveRoom' event to the server
-    socket.emit('leaveRoom');
-}
-
-// Handle 'leaveRoom' event on the server-side
-socket.on('leaveRoom', (socketId) => {
-    // Call the function to leave the room
-    leaveChatRoom(socketId);
-});
 
 // Function to handle leaving the chat room
 function leaveChatRoom(socketId) {
