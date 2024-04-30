@@ -8,7 +8,6 @@ const activity = document.querySelector('.activity')
 const usersList = document.querySelector('.user-list')
 const roomList = document.querySelector('.room-list')
 const chatDisplay = document.querySelector('.chat-display')
-
 function sendMessage(e) {
     e.preventDefault()
     if (nameInput.value && msgInput.value && chatRoom.value) {
