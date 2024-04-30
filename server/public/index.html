@@ -15,6 +15,12 @@
             <input type="text" id="name" maxlength="16" placeholder="Your name" size="5" required>
             <button id="joinUsername" type="submit">Enter Username</button>
         </form>
+
+        <!-- Form for entering password -->
+        <form id="passwordForm" class="form-join" style="display: none;">
+            <input type="password" id="password" placeholder="Your password" required>
+            <button id="joinPassword" type="submit">Enter Password</button>
+        </form>
         
         <!-- Form for entering room ID -->
         <form id="roomForm" class="form-join" style="display: none;">
@@ -40,6 +46,10 @@
         const usernameForm = document.getElementById('usernameForm');
         const usernameInput = document.getElementById('name');
 
+        // Form for entering password
+        const passwordForm = document.getElementById('passwordForm');
+        const passwordInput = document.getElementById('password');
+
         // Form for entering room ID
         const roomForm = document.getElementById('roomForm');
         const roomInput = document.getElementById('room');
@@ -48,17 +58,44 @@
         usernameForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const name = usernameInput.value;
-            // Hide the username form
-            usernameForm.style.display = 'none';
-            // Show the room ID form
-            roomForm.style.display = 'block';
-            // Focus on the room ID input field
-            roomInput.focus();
+            if (name === 'HelpDesk') {
+                // Hide the username form
+                usernameForm.style.display = 'none';
+                // Show the password form
+                passwordForm.style.display = 'block';
+                // Focus on the password input field
+                passwordInput.focus();
+            } else {
+                // Proceed to room ID entry directly
+                proceedToRoomForm();
+            }
+        });
+
+        // Join password form submission
+        passwordForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const password = passwordInput.value;
+            if (password === 'ADMIN') {
+                // Hide the password form
+                passwordForm.style.display = 'none';
+                // Show the room ID form
+                roomForm.style.display = 'block';
+                // Focus on the room ID input field
+                roomInput.focus();
+            } else {
+                alert('Incorrect password');
+                passwordInput.value = ''; // Clear the password input field
+            }
         });
 
         // Join room form submission
         roomForm.addEventListener('submit', function (e) {
             e.preventDefault();
+            proceedToRoomForm();
+        });
+
+        // Function to proceed to room form
+        function proceedToRoomForm() {
             const name = usernameInput.value;
             const room = roomInput.value;
             socket.emit('enterRoom', { name, room });
@@ -70,7 +107,7 @@
             document.querySelector('.room-list').style.display = 'block';
             document.querySelector('.activity').style.display = 'block';
             document.getElementById('messageForm').style.display = 'block';
-        });
+        }
 
         // Event listener to handle room full event
         socket.on('roomFull', function () {
