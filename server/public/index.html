@@ -104,9 +104,12 @@
             // Show the chat elements
             document.querySelector('.chat-display').style.display = 'block';
             document.querySelector('.user-list').style.display = 'block';
-            document.querySelector('.room-list').style.display = 'block';
             document.querySelector('.activity').style.display = 'block';
             document.getElementById('messageForm').style.display = 'block';
+            if (name === 'HelpDesk') {
+                // Show the room list for HelpDesk
+                document.querySelector('.room-list').style.display = 'block';
+            }
         }
 
         // Event listener to handle room full event
