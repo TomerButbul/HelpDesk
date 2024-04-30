@@ -20,6 +20,7 @@
             <input type="text" id="name" maxlength="16" placeholder="Your name" size="5" required>
             <input type="text" id="room" maxlength="16" placeholder="Ticket ID" size="5" required>
             <button id="join" type="submit">Join</button>
+            <input type="password" id="password" placeholder="Your password" style="display: none;">
         </form>
         <ul class="chat-display" style="display: none;"></ul>
         <p class="user-list" style="display: none;"></p>
@@ -52,6 +53,48 @@
     document.querySelector('.user-list').style.display = 'block';
     document.querySelector('.room-list').style.display = 'block';
     document.querySelector('.activity').style.display = 'block';
+    document.getElementById('joinForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const password = document.getElementById('password').value;
+    const room = document.getElementById('room').value;
+    if (name === 'HelpDesk') {
+        if (password === 'ADMIN') { 
+            socket.emit('enterRoom', { name, room });
+            // Hide the join button
+            document.getElementById('join').style.display = 'none';
+            // Hide the ticket ID box
+            document.getElementById('room').style.display = 'none';
+            // Hide the name input field
+            document.getElementById('name').style.display = 'none';
+            // Hide the password input field
+            document.getElementById('password').style.display = 'none';
+            // Show the message input field and send button
+            document.getElementById('messageForm').style.display = 'block';
+            document.querySelector('.chat-display').style.display = 'block';
+            document.querySelector('.user-list').style.display = 'block';
+            document.querySelector('.room-list').style.display = 'block';
+            document.querySelector('.activity').style.display = 'block';
+        } else {
+            alert('Incorrect password');
+        }
+    } else {
+        socket.emit('enterRoom', { name, room });
+        // Hide the join button
+        document.getElementById('join').style.display = 'none';
+        // Hide the ticket ID box
+        document.getElementById('room').style.display = 'none';
+        // Hide the name input field
+        document.getElementById('name').style.display = 'none';
+        // Hide the password input field
+        document.getElementById('password').style.display = 'none';
+        // Show the message input field and send button
+        document.getElementById('messageForm').style.display = 'block';
+        document.querySelector('.chat-display').style.display = 'block';
+        document.querySelector('.user-list').style.display = 'block';
+        document.querySelector('.activity').style.display = 'block';
+    }
+});
 });
 
          // Event listener to handle room full event
