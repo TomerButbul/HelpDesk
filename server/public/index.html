@@ -59,15 +59,15 @@
             e.preventDefault();
             const name = usernameInput.value;
             if (name === 'HelpDesk') {
+                // Proceed to room list directly for HelpDesk
+                showRoomList();
+            } else {
                 // Hide the username form
                 usernameForm.style.display = 'none';
                 // Show the password form
                 passwordForm.style.display = 'block';
                 // Focus on the password input field
                 passwordInput.focus();
-            } else {
-                // Proceed to room ID entry directly
-                proceedToRoomForm();
             }
         });
 
@@ -94,6 +94,14 @@
             proceedToRoomForm();
         });
 
+        // Function to show room list
+        function showRoomList() {
+            // Hide the username form
+            usernameForm.style.display = 'none';
+            // Show the room list
+            document.querySelector('.room-list').style.display = 'block';
+        }
+
         // Function to proceed to room form
         function proceedToRoomForm() {
             const name = usernameInput.value;
@@ -106,10 +114,6 @@
             document.querySelector('.user-list').style.display = 'block';
             document.querySelector('.activity').style.display = 'block';
             document.getElementById('messageForm').style.display = 'block';
-            if (name === 'HelpDesk') {
-                // Show the room list for HelpDesk
-                document.querySelector('.room-list').style.display = 'block';
-            }
         }
 
         // Event listener to handle room full event
