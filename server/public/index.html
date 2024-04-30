@@ -66,8 +66,12 @@
                 // Focus on the password input field
                 passwordInput.focus();
             } else {
+                // Hide the username form
+                usernameForm.style.display = 'none';
                 // Proceed to room ID entry directly
-                proceedToRoomForm();
+                roomForm.style.display = 'block';
+                // Focus on the room ID input field
+                roomInput.focus();
             }
         });
 
