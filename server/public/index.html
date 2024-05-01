@@ -96,6 +96,9 @@
         roomForm.addEventListener('submit', function (e) {
             e.preventDefault();
             proceedToRoomForm();
+            if (name === 'HelpDesk') {
+                document.querySelector('.room-list').style.display = 'block';
+            }
         });
 
         // Function to proceed to room form
