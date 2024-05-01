@@ -93,27 +93,29 @@
         });
 
         // Join room form submission
+        roomForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            proceedToRoomForm();
+        });
+
+        // Function to proceed to room form
         function proceedToRoomForm() {
-    const name = usernameInput.value;
-    const room = roomInput.value;
-    socket.emit('enterRoom', { name, room });
+            const name = usernameInput.value;
+            const room = roomInput.value;
+            socket.emit('enterRoom', { name, room });
+            // Hide the room ID form
+            roomForm.style.display = 'none';
+            // Show the chat elements
+            document.querySelector('.chat-display').style.display = 'block';
+            document.querySelector('.user-list').style.display = 'block';
+            document.querySelector('.room-list').style.display = 'block';
+            document.querySelector('.activity').style.display = 'block';
+            document.getElementById('messageForm').style.display = 'block'; 
+            if (name === 'HelpDesk') {
+                document.querySelector('.room-list').style.display = 'block';
+            }
 
-    // Hide the room ID form
-    roomForm.style.display = 'none';
-
-    // Show the chat elements
-    document.querySelector('.chat-display').style.display = 'block';
-    document.querySelector('.user-list').style.display = 'block';
-    document.querySelector('.activity').style.display = 'block';
-    document.getElementById('messageForm').style.display = 'block';
-
-    // Show room list only if the user is 'HelpDesk'
-    if (name === 'HelpDesk') {
-        document.querySelector('.room-list').style.display = 'block';
-    } else {
-        document.querySelector('.room-list').style.display = 'none';
-    }
-}
+        }
 
         // Event listener to handle room full event
         socket.on('roomFull', function () {
