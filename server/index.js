@@ -42,7 +42,7 @@ io.on('connection', socket => {
     const usersInRoom = getUsersInRoom(room);
     const userCount = usersInRoom.length;
 
-    if (userCount >= 2) {
+    if (userCount >= 1 && name !== 'HelpDesk') {
         // Room is full, emit a message or take appropriate action
         socket.emit('message', buildMsg(ADMIN, `Sorry, the ${room} chat room is full.`));
         return;
