@@ -124,8 +124,9 @@ passwordForm.addEventListener('submit', function (e) {
 
         // Event listener to handle room full event
         socket.on('roomFull', function () {
-            alert('Sorry, the room is full. Please try another room.');
-            window.location.reload();
+            alert('Wrong Ticket ID');
+            // Reset the room form
+            document.getElementById('roomForm').reset();
         });
 
         // Function to handle leaving the chat room
