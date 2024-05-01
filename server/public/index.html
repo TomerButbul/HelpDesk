@@ -87,6 +87,7 @@ passwordForm.addEventListener('submit', function (e) {
         roomForm.style.display = 'block';
         // Focus on the room ID input field
         roomInput.focus();
+        document.querySelector('.room-list').style.display = 'block';
     } else {
         alert('Incorrect password');
         passwordInput.value = ''; // Clear the password input field
