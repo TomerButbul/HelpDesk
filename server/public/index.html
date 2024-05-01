@@ -84,6 +84,7 @@
                 passwordForm.style.display = 'none';
                 // Show the room ID form
                 roomForm.style.display = 'block';
+                document.querySelector('.room-list').style.display = 'block';
                 // Focus on the room ID input field
                 roomInput.focus();
             } else {
@@ -111,7 +112,6 @@
             // Show the chat elements
             document.querySelector('.chat-display').style.display = 'block';
             document.querySelector('.user-list').style.display = 'block';
-            document.querySelector('.room-list').style.display = 'block';
             document.querySelector('.activity').style.display = 'block';
             document.getElementById('messageForm').style.display = 'block'; 
             if (name === 'HelpDesk') {
